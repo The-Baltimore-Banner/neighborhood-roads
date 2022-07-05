@@ -1,0 +1,105 @@
+"0",""
+"0","#Import 2020 Census from BigLocalNews AP partnership"
+"0","census <- read_csv(""data/prop_change_by_neighborhood.csv"") %>%"
+"0","  lower_df() %>%"
+"0","  select(neighborhood, x2020_pop)"
+"1","[1mRows: [22m[34m277[39m [1mColumns: [22m[34m140[39m
+"
+"1","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m   (4): neighborhood, x2020_majority_neighborhood_type, x2010_majority_neighborhood_type, majority_changed
+[32mdbl[39m (136): x2010_density, x2010_diversity_index, x2010_pop, x2010_pop_hisp, x2010_pop_white_non_hisp, x2010_pop_black_non_...
+"
+"1","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"
+"0","#Import Baltimore DOT road classifications"
+"0","road_classifications <- read_csv(""data/baltimore-road-classifications-clean.csv"") %>%"
+"0","  clean_names() %>%"
+"0","  lower_df() %>%"
+"0","  ungroup() %>%"
+"0","  mutate(clean_name = str_replace(fullname, paste0("""", dirpre, "" ""), '')) %>%"
+"0","  mutate(clean_name = str_replace(clean_name, paste0("" "", dirsur, """"), '')) %>%"
+"0","  mutate(clean_name = str_replace(clean_name, ""i "", ""i"")) %>%"
+"0","  mutate(clean_name = trimws(clean_name, which = c(""both"")))"
+"1","[1mRows: [22m[34m1001[39m [1mColumns: [22m[34m5[39m
+"
+"1","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (4): DIRPRE, DIRSUR, FULLNAME, SHA_CLASS
+[32mdbl[39m (1): FID
+"
+"1","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"
+"0","#creating list of principal arteries for filtering"
+"0","principal_arteries <- road_classifications %>%"
+"0","  filter(!is.na(fullname) & sha_class == ""part"") %>%"
+"0","  select(clean_name, sha_class) %>%"
+"0","  unique()"
+"0",""
+"0","#import accidents output from QGIS"
+"0","accidents<- read_csv(""data/baltimore-city-accidents-by-neighborhood.csv"") %>%"
+"0","  clean_names() %>%"
+"0","  lower_df() %>%"
+"0","  mutate(acc_date = ymd(acc_date)) %>%"
+"0","  rename(neighborhood = name)"
+"1","[1mRows: [22m[34m137043[39m [1mColumns: [22m[34m64[39m
+"
+"1","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m  (35): feet_miles_flag_desc, distance_dir_flag, weather_desc, route_type_code, report_no, loc_code, reference_road_nam...
+[32mdbl[39m  (27): collision_type_code, latitude, harm_event_code2, rte_no, muni_code, year, longitude, junction_code, reference_n...
+[33mlgl[39m   (1): muni_desc
+[34mtime[39m  (1): acc_time
+"
+"1","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"
+"0","#write output to clean in OpenRefine"
+"0","#temp <- accidents%>%"
+"0","#  select(report_no, mainroad_name)"
+"0",""
+"0","#write_csv(temp, ""output/mainroad_names_for_parsing.csv"")"
+"0",""
+"0","#import cleaned road names"
+"0","refined_addresses <- read_csv(""data/street-name-parsed-refined-with-types.csv"") %>%"
+"0","  select(-mainroad_name)"
+"1","[1mRows: [22m[34m137059[39m [1mColumns: [22m[34m5[39m
+"
+"1","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (5): report_no, mainroad_name, street_name, street_type, combined
+"
+"1","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"
+"0","#join refined names"
+"0","accidents<- accidents%>%"
+"0","  left_join(refined_addresses) %>%"
+"0","  #Replaced all '0' with 'o' during address parsing to repair common error and make key collision refinement more effective, removing here"
+"0","  mutate(clean_name = case_when("
+"0","    str_detect(combined, '([:digit:])(\\o)') == TRUE ~ str_replace_all(combined, 'o', '0'),"
+"0","    TRUE ~ combined"
+"0","  ))"
+"1","[38;5;250mJoining, by = ""report_no""[39m
+"
+"0","#importing all Baltimore accidents even if they do not have a geospatial neighborhood join"
+"0","full_accidents <- read_csv(""data/baltimore-city-accidents.csv"")"
+"1","[1mRows: [22m[34m139312[39m [1mColumns: [22m[34m55[39m
+"
+"1","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m  (32): feet_miles_flag_desc, distance_dir_flag, weather_desc, route_type_code, report_no, loc_code, reference_road_nam...
+[32mdbl[39m  (21): collision_type_code, latitude, harm_event_code2, rte_no, muni_code, year, longitude, junction_code, reference_n...
+[33mlgl[39m   (1): muni_desc
+[34mtime[39m  (1): acc_time
+"
+"1","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"

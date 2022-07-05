@@ -1,0 +1,7 @@
+"0",""
+"0","#Rows without clean street names"
+"0","nrow(accidents %>% filter(is.na(clean_name)))"
+"1","[1]"
+"1"," 24000"
+"1","
+"

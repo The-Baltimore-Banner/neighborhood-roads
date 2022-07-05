@@ -1,0 +1,8 @@
+"0",""
+"0","years <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)"
+"0",""
+"0","for (input_year in years){"
+"0","  "
+"0","  print(grouper(accidents%>% filter(year == input_year), ""neighborhood""))"
+"0","    "
+"0","}"
