@@ -1,0 +1,20 @@
+Code,Value Description
+00,Not Applicable
+01,Head On
+02,Head On Left Turn
+03,Same Direction Rear End
+04,Same Direction Rear End Right Turn
+05,Same Direction Rear End Left Turn
+06,Opposite Direction Sideswipe
+07,Same Direction Sideswipe
+08,Same Direction Right Turn
+09,Same Direction Left Turn
+10,Same Direction Both Left Turn
+11,Same Movement Angle
+12,Angle Meets Right Turn
+13,Angle Meets Left Turn
+14,Angle Meets Left Turn Head On
+15,Opposite Direction Both Left Turn
+17,Single Vehicle
+88,Other
+99,Unknown

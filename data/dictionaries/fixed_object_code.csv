@@ -1,0 +1,24 @@
+Code,Value Description
+00,Not Applicable
+01,Bridge or Overpass
+02,Building
+03,Culvert or Ditch
+04,Curb
+05,Guardrail or Barrier
+06,Embankment
+07,Fence
+08,Light Support Pole
+09,Sign Support Pole
+10,Other Pole
+11,Tree Shrubbery
+12,Construction Barrier
+13,Crash Attenuator
+14,Guardrail End
+15,Concrete Traffic Barrier
+16,Other Traffic Barrier
+17,Traffic Signal Support
+18,Mailbox
+19,Bridge Overhead Structure
+20,Bridge Pier Support
+21,Bridge Rail
+22,Culvert

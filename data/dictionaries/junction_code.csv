@@ -1,0 +1,12 @@
+Code	Value Description
+00,	Not Applicable
+01,	Non Intersection
+02,	Intersection
+03,	Intersection Related
+04,	Driveway Alley Access Related
+5.01,	Interchange Related
+6.01,	Crossover Related
+7.01,	Railway Grade Crossing
+8.04,	Residential Driveway
+9.04,	Commercial Driveway
+10.04,	Alley

@@ -1,0 +1,12 @@
+Code, Value Description
+00, Not Applicable
+01, No Defects
+02, Shoulder Defect
+03, Holes, Ruts, Etc.
+04, Foreign Material
+05, Loose Surface Material
+06, Obstruction Not Lighted
+07, Obstruction Not Signaled
+08, View Obstructed
+88, Other
+99, Unknown

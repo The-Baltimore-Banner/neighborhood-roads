@@ -1,0 +1,13 @@
+Code, Value Description
+00, Not Applicable
+01, Wet
+02, Dry
+03, Snow
+04, Ice
+05, Mud, Dirt, Gravel
+06, Slush
+07, Water (standing/moving)
+08, Sand
+09, Oil
+88, Other
+99, Unknown

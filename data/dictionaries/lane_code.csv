@@ -1,0 +1,17 @@
+Code,Value Description
+00,Not Applicable
+01,Right Turn Lane
+02,Left Turn Lane
+03,Acceleration Lane
+04,Deceleration Lane
+05,Shoulder Area
+06,Crossover Area
+07,Off Road
+08,Gore Area
+09,Median Area
+10,Parking Lot
+11,Separator
+12,Outside Right of Way
+13,On Ramp
+88,Other
+99,Unknown

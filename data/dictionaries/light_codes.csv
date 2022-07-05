@@ -1,0 +1,10 @@
+Code,Value Description
+00,Not Applicable
+01,Daylight
+03,Dark Lights On
+04,Dark No Lights
+05,Dawn
+06,Dusk
+07,Dark - Unknown Lighting
+88,Other
+99,Unknown

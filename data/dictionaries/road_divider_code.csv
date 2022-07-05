@@ -1,0 +1,10 @@
+Code, Value Description
+00, Not Applicable
+01, Two-way, Not Divided
+02, One-way Trafficway
+03, Two-way, Divided, Unprotected (painted >4 feet) Median
+04, Two-way, Divided, Positive Median Barrier
+05, Two-way, Not Divided with a Continuous Left Turn Lane
+88, Other
+99, Unknown
+99, Unknown

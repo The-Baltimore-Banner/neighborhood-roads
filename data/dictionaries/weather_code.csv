@@ -1,0 +1,14 @@
+Code, Value Description
+00, Not Applicable
+02, Foggy
+03, Raining
+05, Severe Winds
+6.01, Clear
+7.01, Cloudy
+8.04, Snow
+9.04, Sleet
+10.04, Blowing Snow
+11.88, Blowing Sand, Soil, Dirt
+12.04, Wintry Mix
+88, Other
+99, Unknown

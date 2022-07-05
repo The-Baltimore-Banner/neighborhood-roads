@@ -1,0 +1,27 @@
+Code,Value Description
+00,	Not Applicable
+01,	Other Vehicle
+02,	Parked Vehicle
+03,	Pedestrian
+04,	Bicycle
+05,	Other Pedalcycle
+06,	Other Conveyance
+07,	Railway Train
+08,	Animal
+09,	Fixed Object
+10,	Other Object
+11,	Overturn
+12,	Spilled Cargo
+13,	Jackknife
+14,	Units Separated
+15,	Other Non Collision
+16,	Off Road
+17,	Downhill Roadway
+18,	Explosion or Fire
+19,	Backing
+20,	U-turn
+21.15,	Immersion
+22.15,	Fell Jumped from Motor Vehicle
+23.15,	Thrown or Falling Object
+88,	Other
+99,	Unknown
