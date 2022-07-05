@@ -1,0 +1,172 @@
+"0","knitr::opts_chunk$set(echo = TRUE)"
+"0","knitr::opts_chunk$set(echo = TRUE)"
+"0","library(tidyverse)"
+"2","Registered S3 methods overwritten by 'dbplyr':
+  method         from
+  print.tbl_lazy     
+  print.tbl_sql      
+"
+"2","[37m── [1mAttaching packages[22m ───────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.1 ──[39m
+"
+"2","[37m[32m✔[37m [34mggplot2[37m 3.3.6     [32m✔[37m [34mpurrr  [37m 0.3.4
+[32m✔[37m [34mtibble [37m 3.1.7     [32m✔[37m [34mdplyr  [37m 1.0.9
+[32m✔[37m [34mtidyr  [37m 1.2.0     [32m✔[37m [34mstringr[37m 1.4.0
+[32m✔[37m [34mreadr  [37m 2.1.2     [32m✔[37m [34mforcats[37m 0.5.1[39m
+"
+"2","[37m── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[37m [34mdplyr[37m::[32mfilter()[37m masks [34mstats[37m::filter()
+[31m✖[37m [34mdplyr[37m::[32mlag()[37m    masks [34mstats[37m::lag()[39m
+"
+"0","library(readr)"
+"0","library(janitor)"
+"2","
+Attaching package: ‘janitor’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    chisq.test, fisher.test
+
+"
+"0","library(lubridate)"
+"2","
+Attaching package: ‘lubridate’
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    date, intersect, setdiff, union
+
+"
+"0","library(tidycensus)"
+"0","library(readxl)"
+"0","library(corrr)"
+"0","library(sqldf)"
+"2","Loading required package: gsubfn
+"
+"2","Loading required package: proto
+"
+"2","Loading required package: RSQLite
+"
+"0","library(scales)"
+"2","
+Attaching package: ‘scales’
+
+"
+"2","The following object is masked from ‘package:purrr’:
+
+    discard
+
+"
+"2","The following object is masked from ‘package:readr’:
+
+    col_factor
+
+"
+"0","library(psych)"
+"2","
+Attaching package: ‘psych’
+
+"
+"2","The following objects are masked from ‘package:scales’:
+
+    alpha, rescale
+
+"
+"2","The following objects are masked from ‘package:ggplot2’:
+
+    %+%, alpha
+
+"
+"0","options(digits=3)"
+"0","options(scipen=999)"
+"0","'%notin%' <- Negate('%in%')"
+"0",""
+"0",""
+"0","#does a standard group_by and count() with percentage"
+"0","grouper <- function(input_df, group_by_column, new_column_name = ""n()""){"
+"0","  output_df <- input_df %>%"
+"0","    group_by(.data[[group_by_column]]) %>%"
+"0","    summarise(temp_count = n()) %>%"
+"0","    mutate(percent = temp_count/sum(temp_count)*100) %>%"
+"0","    arrange(desc(percent)) %>%"
+"0","    rename(!!new_column_name := temp_count)"
+"0","  return(output_df)"
+"0","}"
+"0",""
+"0","#group/counts every column in input dataframe"
+"0","group_count <- function(input_df, group_column_name='n()', state_filter=NA, start_col = 1){"
+"0","  column_names <- colnames(input_df)"
+"0","  if(!is.na(state_filter)){"
+"0","    input_df <- input_df %>%"
+"0","      filter(state == state_filter)"
+"0","  }"
+"0","  for (column in column_names[start_col:length(column_names)]){"
+"0","    output <- grouper(input_df, column, group_column_name)"
+"0","    print(output)"
+"0","  }"
+"0","}"
+"0",""
+"0","#function for calculating age, updates to the day; stolen from the internet"
+"0","calc_age <- function(birthDate, refDate = Sys.Date()) {"
+"0","    require(lubridate)"
+"0","    period <- as.period(interval(birthDate, refDate),"
+"0","                        unit = ""year"")"
+"0","    period$year"
+"0","}"
+"0",""
+"0","#lowers case of every character column in a dataframe"
+"0","lower_df <- function(input_df){"
+"0","  names <- colnames(input_df)"
+"0","  output_df <- input_df"
+"0","  names <- colnames(output_df)"
+"0","  for (name in names){"
+"0","    if (is.character(output_df[[name]])){"
+"0","      output_df[[name]] <- tolower(output_df[[name]])"
+"0","      #print('yes')"
+"0","    } else {"
+"0","      output_df[[name]] <- output_df[[name]]"
+"0","      #print('no')"
+"0","    }"
+"0","  }"
+"0","  return(output_df)"
+"0","}"
+"0",""
+"0","#imports every file in a folder"
+"0","import_files_in_folder <- function(input_path, output_name=''){"
+"0","  files <- list.files(path=input_path)"
+"0","  for (file in files){you"
+"0","    file_path = paste0(input_path, file)"
+"0","    file_sans_csv = str_remove(file, '.csv')"
+"0","    file_sans_csv = gsub(""-"", ""_"", file_sans_csv)"
+"0","    imported_file <- read_csv(file_path)"
+"0","    assign(paste0(file_sans_csv, output_name), imported_file, envir = parent.frame())"
+"0","  }"
+"0","}"
+"0",""
+"0","import_bind_files_in_folder <- function(input_path, output_name=''){"
+"0","  files <- list.files(path=input_path)"
+"0","  master <- read_csv(paste0(input_path, files[1]))"
+"0","  for (file in files[2:length(files)]){"
+"0","    if (str_sub(file, -3) == 'csv'){"
+"0","      binder <- read_csv(paste0(input_path, file))"
+"0","      master <- master %>%"
+"0","        rbind(binder)      "
+"0","    } else {"
+"0","      #pass"
+"0","    }"
+"0","  }"
+"0","  return(master)"
+"0","}"
+"0",""
+"0","grouper_sum <- function(input_df, group_by_column, sum_column, new_column_name = ""n()""){"
+"0","  output_df <- input_df %>%"
+"0","    group_by(.data[[group_by_column]]) %>%"
+"0","    summarise(temp_count = sum(.data[[sum_column]])) %>%"
+"0","    mutate(percent = temp_count/sum(temp_count)*100) %>%"
+"0","    arrange(desc(percent)) %>%"
+"0","    rename(!!new_column_name := temp_count)"
+"0","  return(output_df)"
+"0","  "
+"0","}"
+"0",""

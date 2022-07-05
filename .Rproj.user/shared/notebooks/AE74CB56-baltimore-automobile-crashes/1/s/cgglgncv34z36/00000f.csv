@@ -1,0 +1,8 @@
+"0",""
+"0","#Calculating percent of crashes that did not have both clean street name and a corresponding geospatial location."
+"0","(26219/nrow(full_accidents)*100)"
+"1","[1]"
+"1"," 18.8"
+"1","
+"
+"0","rm(full_accidents)"
